@@ -1,6 +1,8 @@
 import React from 'react';
 import './header.styles.scss';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import {auth} from '../../firebase/firebase.utils';
 //import svg as ReactComponent
@@ -31,4 +33,11 @@ const Header=({currentUser})=>{
     );
 }
 
-export default Header;
+//this is the function allow us to access the state
+//set some state attri of current component equals the one from the root reducer
+//return an StateProps obj,
+const mapStateToProps=(state)=>({//state is the root reducer, the state.user is the user reducer,
+    currentUser:state.user.currentUser
+});
+
+export default connect(mapStateToProps)(Header);

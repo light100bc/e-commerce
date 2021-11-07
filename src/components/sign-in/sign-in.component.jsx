@@ -4,6 +4,7 @@ import FormInput from '../form-input/form-input.components';
 import CustomButton from '../custom-button/custom-button.component';
 
 import {signInWithGoogle} from '../../firebase/firebase.utils';
+import {auth} from '../../firebase/firebase.utils';
 
 class SignIn extends React.Component{
     constructor(props){
@@ -14,9 +15,18 @@ class SignIn extends React.Component{
             password:''
         }
     }
-    handleSubmit=event=>{
+    handleSubmit=async event=>{
         event.preventDefault();
-        this.setState({email:'',password:''})
+
+        const {email,password}=this.state;
+
+        try{
+            await auth.signInWithEmailAndPassword(email,password);
+            this.setState({email:'',password:''});//clear the state after sign in
+        }catch(error){
+            console.log(error);
+        }
+
     }
 
     handleChange=event=>{
@@ -31,7 +41,7 @@ class SignIn extends React.Component{
 
     render(){
         return(
-            <div className='sign-in'>
+            <div className='-in'>
                 <h2> I already have an acoount</h2>
                 <span>Sign in with your email and pwd</span>
 
