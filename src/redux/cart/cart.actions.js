@@ -9,3 +9,10 @@ export const toggleCartHidden=()=>(
         //no need input 
     }
 );
+
+export const addItem=(item)=>(
+    {
+        type:CartActionTypes.ADD_ITEM,
+        payload:item
+    }
+)

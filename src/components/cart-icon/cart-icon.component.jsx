@@ -15,7 +15,7 @@ const CartIcon=({toggleCartHidden})=>( //"toggleCartHidden" is the function defi
 )
 
 const mapDispatchToProps=dispatch=>({
-    toggleCartHidden:()=>dispatch(toggleCartHidden()) //the first "oggleCartHidden" is defined as a function here
+    toggleCartHidden:()=>dispatch(toggleCartHidden()) //the first "toggleCartHidden" is defined as a function here
 })
 
 

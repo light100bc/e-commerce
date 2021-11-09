@@ -12,9 +12,12 @@ const CollectionPreview=({items,title})=>{
                 which can be slow*/}
                 {items
                     .filter((item,idx)=>idx<4)
-                    .map(({id,...otherItemProps})=>(
-                    <CollectionItem key={id} {...otherItemProps} />
-                ))}
+                    // .map(({id,...otherItemProps})=>(
+                    // <CollectionItem key={id} {...otherItemProps} />))
+                    .map((item)=>(<CollectionItem key={item.id} item={item}/>))
+                    //126 before pass distracted attri, this time pass whole item. 
+                    //Because we use the item here to change state(in redux) in the <CollectionItem>
+                }
             </div>
         </div>
     )

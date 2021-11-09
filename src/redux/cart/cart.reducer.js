@@ -1,8 +1,10 @@
 //reducer used to store the current dropdown box state
 import {CartActionTypes} from './cart.types';
+import { addItemToCart } from './cart.utils';
 
 const INITIAL_STATE={
-    hidden:true
+    hidden:true,
+    cartItems: []
 }
 
 const cartReducer=(state=INITIAL_STATE, action)=>{
@@ -12,6 +14,12 @@ const cartReducer=(state=INITIAL_STATE, action)=>{
                 ...state, //keep all state the same as before
                 hidden:!state.hidden //diff from user.reducer. Here we change state at reducer not in actions.js
 
+            };
+        case CartActionTypes.ADD_ITEM:
+            return{
+                ...state,
+               // cartItems:[...state.cartItems,action.payload] //126 keep the previous state.cartItems, append new items in the payload attribute.
+                cartItems:addItemToCart(state.cartItems,action.payload)//127
             };
         default:
             return state;
