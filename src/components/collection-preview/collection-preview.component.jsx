@@ -16,7 +16,7 @@ const CollectionPreview=({items,title})=>{
                     // <CollectionItem key={id} {...otherItemProps} />))
                     .map((item)=>(<CollectionItem key={item.id} item={item}/>))
                     //126 before pass distracted attri, this time pass whole item. 
-                    //Because we use the item here to change state(in redux) in the <CollectionItem>
+                    //Because we use the item to change state(in redux) in the <CollectionItem>
                 }
             </div>
         </div>
