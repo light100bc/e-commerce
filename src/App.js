@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 
 import {auth,createUserProfileDocument} from './firebase/firebase.utils';
 import {setCurrentUser} from './redux/user/user.actions';
+import CheckoutPage from './pages/checkout/checkout.component';
+import { createStructuredSelector } from 'reselect';
+import {selectCurrentUser} from './redux/user/user.selectors';
 
 class App extends React.Component{
   // constructor(){
@@ -47,11 +50,11 @@ class App extends React.Component{
             //,console.log("inner")
             // ,()=>{console.log(this.state);}//check the state , path func as 2n para in setState,previent asyn
           );
-          console.log("inner");
+          // console.log("inner");
         });
       }
       setCurrentUser(userAuth);//if userAuth is null, set state.currentuser to null
-      console.log("outter");
+      // console.log("outter");
       //if not null, set state agian...by userAuth
     })
   }
@@ -69,6 +72,7 @@ class App extends React.Component{
           <Route exact path='/' component= {HomePage}/>
           <Route exact path='/shop' component={ShopPage}/>
           {/* <Route exact path='/signin' component={SignInAndSignUpPage}/> */}
+          <Route exact path='/checkout' component={CheckoutPage} />
           <Route exact path='/signin' render={()=>this.props.currentUser?(<Redirect to='/'/>):(<SignInAndSignUpPage/>)}/>
           {/*if exist currentUser, redirect '/signin' to '/'. Otherwise direct to SignInAndSignUpPage
           render*/}
@@ -79,8 +83,12 @@ class App extends React.Component{
 }
 
 //add mapStateToProps because we nee read the state from redux
-const mapStateToProps=({user})=>({
-  currentUser:user.currentUser
+// const mapStateToProps=({user})=>({
+//   currentUser:user.currentUser
+// })
+
+const mapStateToProps=createStructuredSelector({
+  currentUser:selectCurrentUser
 })
 
 const mapDispatchToProps=dispatch=>({//use Disppatch because it set state but not use state to display
@@ -91,5 +99,6 @@ const mapDispatchToProps=dispatch=>({//use Disppatch because it set state but no
   //user=>dispatch(setCurrentUser(user) is a function that input user, return state(called reducer)
   //??where is user,where is dispatch
 });
+
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);
