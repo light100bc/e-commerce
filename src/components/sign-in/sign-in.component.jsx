@@ -41,7 +41,7 @@ class SignIn extends React.Component{
 
     render(){
         return(
-            <div className='-in'>
+            <div className='sign-in'>
                 <h2> I already have an acoount</h2>
                 <span>Sign in with your email and pwd</span>
 
