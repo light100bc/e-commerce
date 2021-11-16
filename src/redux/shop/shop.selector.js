@@ -18,7 +18,7 @@ export const selectCollections=createSelector(
 
 export const selectCollectionsForPreview=createSelector(//convert obj into array for component use
     [selectCollections],
-    collections=>Object.keys(collections).map(key=>collections[key]) //把collections obj变为array
+    collections=>collections? Object.keys(collections).map(key=>collections[key]) : []//把collections obj变为array
 )
 
 
@@ -28,7 +28,7 @@ export const selectCollection=collectionUrlParam=>{
     return(
         createSelector(
             selectCollections,
-            collections=>collections[collectionUrlParam]
+            collections=>collections? collections[collectionUrlParam]:null
                 // collections.find(collection=>collection.id===COLLECTION_ID_MAP[collectionUrlParam])
                 
         )

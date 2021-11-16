@@ -3,7 +3,7 @@ import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 
 const onToken=token=>{
-    console.log(token);//after pay successfully
+    //after pay successfully
     alert('Paymenkt Successful')
 
 }

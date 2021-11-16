@@ -1,0 +1,20 @@
+Hi Victor, UQ this year,with a master degree of DS. I also have a B of Engineering in IT at SHU. Sysmex, SE. resp MySQL, soft devleop.
+
+I am interested in this position  I am interested in the data analysis in the finance sector.  and would like work people diff background.
+
+
+I am experienced in data analysis. I ve completed many d-d proj using Py,R. SQL. I am experienced in data modeling packagea, visual tools like BI and Tableau. solid math background. I bel my skills can be benefitial to your comapny. And would like to have a chance to prove myself.
+
+
+step outcome
+one of my recent data ana proj is a trajectory data mining project. which inolves using taxi data to identifiy taxi drivers. It is my final project for my masters. The data is given by my superviser. I visualized and statisticized the raw data and did the data cleaning to exclud the data that are not qualified. I splited the data into training and testing sets. I did data transformation and dimension reduction by a grid-based method. I used KNN to do the prediction. Finally I did the data visuaization by Tableau.  
+
+outcome:
+I used gantt chart to manage the project. And improved the acc from 95% to 96%. 
+
+adress prob , 
+reduce storage
+TF-IDF
+
+
+

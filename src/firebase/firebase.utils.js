@@ -40,6 +40,35 @@ export const createUserProfileDocument=async(userAuth,additionalData)=>{
     return userRef;
 }
 
+//https://firebase.google.com/docs/firestore/manage-data/transactions#node.js
+export const addCollectionAndDocuments=(collectionKey,objectsToAdd)=>{
+    const collectionRef=firestore.collection(collectionKey);
+
+    const batch=firestore.batch();
+    objectsToAdd.forEach(obj=>{
+        const newDocRef=collectionRef.doc();
+        batch.set(newDocRef,obj);
+    })
+    batch.commit();
+}
+
+export const convertCollectionsSnapshotsToMap=(collections)=>{
+    const transformedCollection=collections.docs.map(doc=>{
+        const{title,items}=doc.data();
+        return{
+            routeName:encodeURI(title.toLowerCase()),//input string, output a version URL can read
+            id: doc.id,
+            title,
+            items
+        };
+    });
+    return transformedCollection.reduce((accumulator,collection)=>{
+        accumulator[collection.title.toLowerCase()]=collection;
+        return accumulator;
+    },{}) //182 {} is the initial state, return is the arg1!, 把array变为obj
+}
+
+
 firebase.initializeApp(config);
 
 export const auth=firebase.auth();

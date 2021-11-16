@@ -4,7 +4,7 @@ import HomePage from './pages/homepage/homepage.component.jsx';
 import {Switch,Route,Redirect} from 'react-router-dom';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component.jsx';
-import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component'
+import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import { connect } from 'react-redux';
 
 import {auth,createUserProfileDocument} from './firebase/firebase.utils';
@@ -12,6 +12,8 @@ import {setCurrentUser} from './redux/user/user.actions';
 import CheckoutPage from './pages/checkout/checkout.component';
 import { createStructuredSelector } from 'reselect';
 import {selectCurrentUser} from './redux/user/user.selectors';
+import {selectCollectionsForPreview} from './redux/shop/shop.selector';
+
 
 class App extends React.Component{
   // constructor(){
@@ -30,7 +32,7 @@ class App extends React.Component{
     //here when we assign the func to unsubscribeFromAuth, it is also runned. Because it is a function with input. If funcName without "()", it just assign func without run.
     //async becasue it is API func
     //userAuth is the whole user obj return by event onAuthStateChange.
-    const {setCurrentUser}=this.props;//distruct props,get setCurrentUser which is a function
+    const {setCurrentUser,collectionsArray}=this.props;//distruct props,get setCurrentUser which is a function
 
     this.unsubscribeFromAuth=auth.onAuthStateChanged(async userAuth=>{//this is an open subscription,which means as long as the app is mounted, the connection is there
       // console.log(userAuth);//we find from development tool that the userAuth obj is in stored
@@ -56,6 +58,9 @@ class App extends React.Component{
       setCurrentUser(userAuth);//if userAuth is null, set state.currentuser to null
       // console.log("outter");
       //if not null, set state agian...by userAuth
+      
+      //only use once
+      // addCollectionAndDocuments('collections',collectionsArray.map(({title,items})=>({title,items})));
     })
   }
 
@@ -88,7 +93,8 @@ class App extends React.Component{
 // })
 
 const mapStateToProps=createStructuredSelector({
-  currentUser:selectCurrentUser
+  currentUser:selectCurrentUser,
+  collectionsArray:selectCollectionsForPreview
 })
 
 const mapDispatchToProps=dispatch=>({//use Disppatch because it set state but not use state to display
