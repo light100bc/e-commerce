@@ -13,6 +13,7 @@ import CheckoutPage from './pages/checkout/checkout.component';
 import { createStructuredSelector } from 'reselect';
 import {selectCurrentUser} from './redux/user/user.selectors';
 import {selectCollectionsForPreview} from './redux/shop/shop.selector';
+import {checkUserSession} from './redux/user/user.actions';
 
 
 class App extends React.Component{
@@ -33,35 +34,31 @@ class App extends React.Component{
     //async becasue it is API func
     //userAuth is the whole user obj return by event onAuthStateChange.
     const {setCurrentUser,collectionsArray}=this.props;//distruct props,get setCurrentUser which is a function
-
-    this.unsubscribeFromAuth=auth.onAuthStateChanged(async userAuth=>{//this is an open subscription,which means as long as the app is mounted, the connection is there
-      // console.log(userAuth);//we find from development tool that the userAuth obj is in stored
-      if(userAuth){//if userAuth is not null
-        //create user in db
-        const userRef=await createUserProfileDocument(userAuth);
+    const {checkUserSession} =this.props;
+    checkUserSession();
+    // this.unsubscribeFromAuth=auth.onAuthStateChanged(async userAuth=>{//this is an open subscription,which means as long as the app is mounted, the connection is there
+    //   //we find from development tool that the userAuth obj is in stored
+    //   if(userAuth){//if userAuth is not null
+    //     //create user in db
+    //     const userRef=await createUserProfileDocument(userAuth);
         
-        //get user data from db and put into state
-        userRef.onSnapshot(snapShot=>{
-          // this.setState({
-          setCurrentUser({
-            currentUser:{
-              id:snapShot.id,
-              ...snapShot.data()
-              }
-            }
-            //,console.log("inner")
-            // ,()=>{console.log(this.state);}//check the state , path func as 2n para in setState,previent asyn
-          );
-          // console.log("inner");
-        });
-      }
-      setCurrentUser(userAuth);//if userAuth is null, set state.currentuser to null
-      // console.log("outter");
-      //if not null, set state agian...by userAuth
+    //     //get user data from db and put into state
+    //     userRef.onSnapshot(snapShot=>{
+    //       setCurrentUser({
+    //         currentUser:{
+    //           id:snapShot.id,
+    //           ...snapShot.data()
+    //           }
+    //         }
+    //       );
+    //     });
+    //   }
+    //   setCurrentUser(userAuth);//if userAuth is null, set state.currentuser to null
+    //   //if not null, set state agian...by userAuth
       
-      //only use once
-      // addCollectionAndDocuments('collections',collectionsArray.map(({title,items})=>({title,items})));
-    })
+    //   //only use once
+    //   // addCollectionAndDocuments('collections',collectionsArray.map(({title,items})=>({title,items})));
+    // })
   }
 
   componentWillUnmount(){ //when unMount App, keep login
@@ -98,7 +95,8 @@ const mapStateToProps=createStructuredSelector({
 })
 
 const mapDispatchToProps=dispatch=>({//use Disppatch because it set state but not use state to display
-  setCurrentUser:user=>dispatch(setCurrentUser(user)) 
+  // setCurrentUser:user=>dispatch(setCurrentUser(user))之前的setCurrentUser变为现在的checkUserSession 
+  checkUserSession:()=>dispatch(checkUserSession())
   //set a function to setCurrentUser?? the first setCurrentUser is the funciton in this file
   //the second is the function in user.actions.js
   //setCurrentUser(user) return an action obj, pass it into dispatch(). dispatch pass this action obj into all the reducer.
