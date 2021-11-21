@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import './App.css';
 import HomePage from './pages/homepage/homepage.component.jsx';
 import {Switch,Route,Redirect} from 'react-router-dom';
@@ -16,72 +16,31 @@ import {selectCollectionsForPreview} from './redux/shop/shop.selector';
 import {checkUserSession} from './redux/user/user.actions';
 
 
-class App extends React.Component{
-  // constructor(){
-  //   super();
+const App=({checkUserSession,currentUser})=> {
 
-  //   this.state={
-  //     currentUser:null
-  //   }
+  useEffect(()=>{
+    checkUserSession()
+  },[checkUserSession]);
+
+  // componentDidMount(){
+  //   const {checkUserSession} =this.props;
+  //   checkUserSession();
   // }
-  
-  unsubscribeFromAuth = null
 
-  //before use componentDidMount, use fetch, fetch data from other source
-  //here we want no the state(login in state) instead of fetch data.
-  componentDidMount(){
-    //here when we assign the func to unsubscribeFromAuth, it is also runned. Because it is a function with input. If funcName without "()", it just assign func without run.
-    //async becasue it is API func
-    //userAuth is the whole user obj return by event onAuthStateChange.
-    const {setCurrentUser,collectionsArray}=this.props;//distruct props,get setCurrentUser which is a function
-    const {checkUserSession} =this.props;
-    checkUserSession();
-    // this.unsubscribeFromAuth=auth.onAuthStateChanged(async userAuth=>{//this is an open subscription,which means as long as the app is mounted, the connection is there
-    //   //we find from development tool that the userAuth obj is in stored
-    //   if(userAuth){//if userAuth is not null
-    //     //create user in db
-    //     const userRef=await createUserProfileDocument(userAuth);
-        
-    //     //get user data from db and put into state
-    //     userRef.onSnapshot(snapShot=>{
-    //       setCurrentUser({
-    //         currentUser:{
-    //           id:snapShot.id,
-    //           ...snapShot.data()
-    //           }
-    //         }
-    //       );
-    //     });
-    //   }
-    //   setCurrentUser(userAuth);//if userAuth is null, set state.currentuser to null
-    //   //if not null, set state agian...by userAuth
-      
-    //   //only use once
-    //   // addCollectionAndDocuments('collections',collectionsArray.map(({title,items})=>({title,items})));
-    // })
-  }
-
-  componentWillUnmount(){ //when unMount App, keep login
-    this.unsubscribeFromAuth();
-  }
-
-
-  render(){
-    return (
-      <div>
-        <Header /> 
-        <Switch>
-          <Route exact path='/' component= {HomePage}/>
-          <Route path='/shop' component={ShopPage}/>
-          {/* <Route exact path='/signin' component={SignInAndSignUpPage}/> */}
-          <Route exact path='/checkout' component={CheckoutPage} />
-          <Route exact path='/signin' render={()=>this.props.currentUser?(<Redirect to='/'/>):(<SignInAndSignUpPage/>)}/>
-          {/*if exist currentUser, redirect '/signin' to '/'. Otherwise direct to SignInAndSignUpPage
-          render*/}
-        </Switch>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Header /> 
+      <Switch>
+        <Route exact path='/' component= {HomePage}/>
+        <Route path='/shop' component={ShopPage}/>
+        {/* <Route exact path='/signin' component={SignInAndSignUpPage}/> */}
+        <Route exact path='/checkout' component={CheckoutPage} />
+        <Route exact path='/signin' render={()=>currentUser?(<Redirect to='/'/>):(<SignInAndSignUpPage/>)}/>
+        {/*if exist currentUser, redirect '/signin' to '/'. Otherwise direct to SignInAndSignUpPage
+        render*/}
+      </Switch>
+    </div>
+  );
 }
 
 //add mapStateToProps because we nee read the state from redux

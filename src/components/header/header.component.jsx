@@ -50,23 +50,6 @@ const Header=({currentUser,hidden,signOutStart})=>{
     );
 }
 
-//this is the function allow us to access the state
-//set some state attri of current component equals the one from the root reducer
-//return an StateProps obj,
-
-// const mapStateToProps=(state)=>({//state is the root reducer, the state.user is the user reducer,
-//     currentUser:state.user.currentUser
-// });
-
-// const mapStateToProps=({user:{currentUser},cart:{hidden}})=>({//state is the root reducer, the state.user is the user reducer,
-//     currentUser,
-//     hidden
-// });
-
-// const mapStateToProps=(state)=>({
-//      currentUser:selectCurrentUser(state),
-//      hidden:selectCartHidden(state)
-// })
 
 
 const mapStateToProps=createStructuredSelector({//crateStructuredSelector,reduce
