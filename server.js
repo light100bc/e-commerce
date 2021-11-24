@@ -18,11 +18,11 @@ app.use(bodyParser.urlencoded({extended:true}))
 // app.use(cors());//不同host port之间可以交流,这里不用
 
 if(process.env.NODE_ENV=='production'){
-    app.use(express.static(path.join(__dirname,'client/build')))//server用于serveclient/build里的东西
+    app.use(express.static(path.join(__dirname,'client/build')));//server用于serveclient/build里的东西
 
     app.get('*',function(req,res){ //所有的url都pass后面的func
-        res.sendFile(path.join(__dirname,'client/build','index.html'))
-    })
+        res.sendFile(path.join(__dirname,'client/build','index.html'));
+    });
 }
 
 app.listen(port,error=>{
