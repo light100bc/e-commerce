@@ -5,7 +5,7 @@ import {Switch,Route,Redirect} from 'react-router-dom';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component.jsx';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import { connect } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 
 import {auth,createUserProfileDocument} from './firebase/firebase.utils';
 import {setCurrentUser} from './redux/user/user.actions';
@@ -16,11 +16,16 @@ import {selectCollectionsForPreview} from './redux/shop/shop.selector';
 import {checkUserSession} from './redux/user/user.actions';
 
 
-const App=({checkUserSession,currentUser})=> {
+const App=()=> {
+
+  const currentUser=useSelector(selectCurrentUser);//替代MapStateToProps
+  const isHidden=useSelector((state)=>state.cart.hidden);
+
+  const dispatch=useDispatch();//hook的dispatch()method仅update第一次。
 
   useEffect(()=>{
-    checkUserSession()
-  },[checkUserSession]);
+    dispatch(checkUserSession())
+  },[dispatch]);//每次render,checkUserSessionHandler都会再次被defined。所以每次都会运行useEffect
 
   // componentDidMount(){
   //   const {checkUserSession} =this.props;
@@ -48,20 +53,13 @@ const App=({checkUserSession,currentUser})=> {
 //   currentUser:user.currentUser
 // })
 
-const mapStateToProps=createStructuredSelector({
-  currentUser:selectCurrentUser,
-  collectionsArray:selectCollectionsForPreview
-})
+// const mapStateToProps=createStructuredSelector({
+//   currentUser:selectCurrentUser,
+// })
 
-const mapDispatchToProps=dispatch=>({//use Disppatch because it set state but not use state to display
-  // setCurrentUser:user=>dispatch(setCurrentUser(user))之前的setCurrentUser变为现在的checkUserSession 
-  checkUserSession:()=>dispatch(checkUserSession())
-  //set a function to setCurrentUser?? the first setCurrentUser is the funciton in this file
-  //the second is the function in user.actions.js
-  //setCurrentUser(user) return an action obj, pass it into dispatch(). dispatch pass this action obj into all the reducer.
-  //user=>dispatch(setCurrentUser(user) is a function that input user, return state(called reducer)
-  //??where is user,where is dispatch
-});
+// const mapDispatchToProps=dispatch=>({
+//   checkUserSession:()=>dispatch(checkUserSession())
+// });
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default App;
